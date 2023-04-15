@@ -1,12 +1,12 @@
 ---
-description: Salesforce to Microsoft Integration
+description: An opensource implementation of Salesforce Functions for the C# community.
 ---
 
 # ApexSharp Functions
 
 **Goal**
 
-Allow Salesforce developers an easy way to connect to external systems that are running software written for the Microsoft .NET platform and, at the same time, keep close compatibility with [Salesforce functions ](https://developer.salesforce.com/docs/platform/functions/overview)
+Provide C# (Microsoft .NET) support for Salesforce developers and at the same time keep close compatibility with [Salesforce functions ](https://developer.salesforce.com/docs/platform/functions/overview)
 
 Use open standards such as
 
@@ -26,14 +26,21 @@ Run anywhere you can run .Net Code
 Advantages of ApexSharp Functions over Salesforce Functions&#x20;
 
 * Opensource&#x20;
-* No cloud vedor lock in, run lock-in.NET runs
-* Ability to scale the cloud services (Go from 1 CPU Cores to [96 Cores](https://www.amd.com/en/products/cpu/amd-epyc-9654p))
+* C# has a very large 3rd party library support, over 350K on [NuGet](https://www.nuget.org/)
+* Visual Studio is the most advanced IDE&#x20;
+* Allows Client and Server to be developed locally
+  * Use[ Ngrok ](https://ngrok.com/product/secure-tunnels)or [Tailscale](https://tailscale.com/pricing/) if you are behind a firewall
+* No cloud vendor lock-in as code runs anywhere their is .NET support
+* Ability to scale the cloud services (1 CPU Cores to [96 Cores](https://www.amd.com/en/products/cpu/amd-epyc-9654p))
+* Use Kubernetes for unlimited scalability.&#x20;
 * Build AI applications using[ GPU Cloud](https://lambdalabs.com/service/gpu-cloud) and Microsoft [ML Framework](https://learn.microsoft.com/en-us/dotnet/machine-learning/)
-* Integrate with applications writien in other programming langgues using [0MQ](https://zeromq.org/)
+* Integrate with applications written in other programming languages using [0MQ](https://zeromq.org/)
+* Centralized logging, Salesforce and ApexFunctions log combined on [Seq](https://datalust.co/seq)&#x20;
+  * We are using [NebulaLogger ](https://github.com/jongpie/NebulaLogger)and [Serilog](https://serilog.net/)
 
 
 
-**High Level Architecutre**&#x20;
+**High Level ArchArchitecture**
 
 <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
