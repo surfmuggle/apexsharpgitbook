@@ -6,33 +6,31 @@ description: C# (Microsoft .NET) support for Salesforce functions developers.
 
 Note: This project is not released yet because
 
-1. Still in the alpha stage. Its more of a proof of concept to show how C# can be used to support Salesforce Functions
-2. Even though I work on these types of projects on my own time, I still work for Salesforce thus, Salesforce OSS legal needs to approve it before its put to public use
+1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can be implemented in C# on the server side.
+2. Despite the fact that I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
 
-If you have questions, please reach out to me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan'
-
-
+Please feel free to contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
 
 
 
-**Open source tools used on this project**
+**Open-source tools used in this project**
 
 * [Net Core](https://dotnet.microsoft.com/en-us/)
 * [Cloud Events](https://cloudevents.io/)
 * [0MQ](https://zeromq.org/)
 * [Kubernetes ](https://kubernetes.io/)and [Paketo](https://paketo.io/)
 
-The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)) thus any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python
+The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)) thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python
 
-The client Apex code has very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, Flow for Industry (Omniscript, Integration Procedure, Flex cards)&#x20;
+The client Apex code has a very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, and Flow for Industry (Omniscript, Integration Procedure, Flex cards)&#x20;
 
 
 
-**Sinc server-sider side SDK is written in C#; it can run anywhere you can run .Net Code**
+**Since server-sider side SDK is written in C#, it can run anywhere you can run .Net Code.**
 
 * Heroku.&#x20;
   * Net Core using [Paketo](https://paketo.io/) Buildpacks
-  * Connect to Heroku Postgres, Radis, Apache Kafka as all of them have C# drivers
+  * Connect to Heroku Postgres, Radis, and Apache Kafka as all of them have C# drivers
   * For dealing with large-scale Salesforce data, use Heroku Connect
 * Amazon AWS
 * Microsoft Azure
@@ -54,7 +52,7 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 **Advantages of ApexSharp Functions over Salesforce Functions** &#x20;
 
 * Open source, which means its free.
-* Using open standards allows it to work with any type of clients, not just Salesforce
+* Using open standards allows it to work with any type of client, not just Salesforce.
 * You have a large pool of C# developers Net Core is available on Windows, Linux and Mac
 * C# has a very large 3rd party library support, over 350K packages on [NuGet](https://www.nuget.org/)
 * The server SDK is Net Core thus, languages such as F# and Visual Basic can use it, not just C#
@@ -75,10 +73,10 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 **Advantages of Salesforce Functions over ApexSharp Functions**
 
 * ApexSharp Functions (ASF) is an open source project that is still in development. With Salesforce Function you get a backing of a 200 billion company.&#x20;
-* You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce
+* You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce.
 * How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
-* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case
+* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case.
 * Salesforce functions do not count against your API limits while ASF calls your regular inbound REST API and count against your API limits (This issue will go away with API user licenses being standard now)
 
 
@@ -95,7 +93,7 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 
 ApexSharp contains two parts, client SDK and server SDK. The client SDK is Apex and it runs on your Salesforce org. You can call the client using Apex, LWC, Flow or Flow for Industry.&#x20;
 
-The server SDK is a based on C# that is compatible with any .NET languages and runs on any environment where you can run .NET Core.&#x20;
+The server SDK isbased on C# that is compatible with any .NET languages and runs on any environment where you can run .NET Core.&#x20;
 
 **Apex Client SDK**
 
@@ -155,11 +153,11 @@ The primary services provided by the SDK are&#x20;
 
 **Web Assembly on Server**
 
-A lot of work is going on in running applications on Web Assembly container that supports [C#](https://blog.jetbrains.com/dotnet/2022/12/15/the-future-of-net-with-wasm/) . Currently, I working with [Fermyon. ](https://www.fermyon.com/blog/webassembly-for-dotnet-developers-spin-sdk-intro)The biggest advantage of Web Assembly are
+A lot of work is going on in running applications on Web Assembly container that supports [C#](https://blog.jetbrains.com/dotnet/2022/12/15/the-future-of-net-with-wasm/) . Currently, I working with [Fermyon. ](https://www.fermyon.com/blog/webassembly-for-dotnet-developers-spin-sdk-intro)The biggest advantage of Web Assembly is
 
-* Applications developed using multiple languages can be compiled into a single image
+* Serverless Applications developed using multiple languages can be compiled into a single image
 * The small size allows it to be run on IoT devices
-* All most all the edge based servelss vendors are supporting Web Assembly
+* Most all the edge based servelss vendors are supporting Web Assembly
 
 
 
