@@ -64,9 +64,13 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 **Advantages of Salesforce Functions over ApexSharp Functions**
 
 * ApexSharp Functions (ASF) is an open source project that is still in development. With Salesforce Function you get a backing of a 200 billion company.&#x20;
-* You are dealing with one vendor and one team for your business and technical issues
-* How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
+* You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce
+* How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
+* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case
+* Salesforce functions do not count against your API limits while ASF calls your regular inbound REST API and count against your API limits (This issue will go away with API user licences being standard now)
+
+
 
 
 
