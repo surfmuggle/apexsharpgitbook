@@ -4,6 +4,15 @@ description: C# (Microsoft .NET) support for Salesforce functions developers.
 
 # ApexSharp Functions
 
+Note: This project is not released yet because
+
+1. Still in the alpha stage. Its more of a proof of concept to show how C# can be used to support Salesforce Functions
+2. Even though I work on these types of projects on my own time, I still work for Salesforce thus Salesforce OSS legal needs to approve it before its put to public use
+
+If you have questions please reach out to me at [jjanarthanan@salesforce.com](mailto://jjanarthanan@salesforce.com)
+
+
+
 **Open source tools we use**
 
 * [Net Core](https://dotnet.microsoft.com/en-us/)
@@ -25,14 +34,14 @@ The client Apex code has very simple open API. This allows Salesforce to call th
   * For dealing with large-scale Salesforce data, use Heroku Connect
 * Amazon AWS
 * Microsoft Azure
-  * [Azure Functions](https://azure.microsoft.com/en-us/products/functions/) : This event-driven serverless service is the easiest open with all most zero management.&#x20;
+  * [Azure Functions](https://azure.microsoft.com/en-us/products/functions/): This event-driven serverless service is the easiest open with all most zero management.&#x20;
   * [App Service](https://azure.microsoft.com/en-us/products/app-service/)
   * [Azure Virtual Machines](https://azure.microsoft.com/en-us/products/virtual-machines/) and [Azure Virtual Machine Scale Sets](https://azure.microsoft.com/en-us/products/virtual-machine-scale-sets/)
   * [Azure Container Apps](https://azure.microsoft.com/en-us/products/container-apps)
   * [Azure Dedicated Host](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/dedicated-host/) (_How about 400 CPU Cores and 10 TB of Ram on a single PC_)
-  * GPU optimized virtual machine for your AI / ML needs (User C# based [ML.NET](https://learn.microsoft.com/en-us/dotnet/machine-learning/))
+  * GPU-optimized virtual machine for your AI / ML needs (User C# based [ML.NET](https://learn.microsoft.com/en-us/dotnet/machine-learning/))
   * FPGA attestation for Azure, use [Hastlayer](https://hastlayer.com/project) for C# binding
-  * [Azure provides well over 200 services](https://azure.microsoft.com/en-us/products/), all these services provide C# SDK thus you can extend your server side functions to use these services.&#x20;
+  * [Azure provides well over 200 services](https://azure.microsoft.com/en-us/products/); all these services provide C# SDK thus, you can extend your server side functions to use these services.&#x20;
 * Google Cloud
 * Kubernetes Container providers such as [Digitalocean](https://www.digitalocean.com/) and [Vultr ](https://www.vultr.com/)
 * Raspberry Pi. Net Core is available on Pi and our server side code is 100% Net Core
@@ -46,18 +55,18 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 * Using open standards allows it to work with any type of clients, not just Salesforce
 * You have a large pool of C# developers Net Core is available on Windows, Linux and Mac
 * C# has a very large 3rd party library support, over 350K packages on [NuGet](https://www.nuget.org/)
-* The server SDK is Net Core thus languages such as F# and Visual Basic can use it, not just C#
+* The server SDK is Net Core thus, languages such as F# and Visual Basic can use it, not just C#
 * Visual Studio is the most advanced IDE in the market
 * Allows Client and Server to be developed locally
   * Use[ Ngrok ](https://ngrok.com/product/secure-tunnels)or [Tailscale](https://tailscale.com/pricing/) if you are behind a firewall
   * Use [ApexSharp](https://github.com/apexsharp/) to develop Apex code locally
-* No cloud vendor lock-in as code runs anywhere their is .NET support
+* No cloud vendor lock-in as code runs anywhere there is .NET support
 * Ability to scale the cloud services (1 CPU Cores to [96 Cores](https://www.amd.com/en/products/cpu/amd-epyc-9654p)) or use Kubernetes for unlimited scalability.&#x20;
 * Build AI applications using[ GPU Cloud](https://lambdalabs.com/service/gpu-cloud) and Microsoft [ML Framework](https://learn.microsoft.com/en-us/dotnet/machine-learning/)
 * Integrate with applications written in other programming languages using [0MQ](https://zeromq.org/)
 * Centralized logging, Salesforce and Apex Functions log combined on [Seq](https://datalust.co/seq)&#x20;
   * We are using [NebulaLogger ](https://github.com/jongpie/NebulaLogger)and [Serilog](https://serilog.net/)
-* Server can be hosted on a environment that provides a Net Core runtime, any thing from a [3$/Month ARM ](https://www.vultr.com/pricing/#cloud-compute/) to a [$14,000/Month monster server with 8x NVIDIA A100, 1TB of Ram, 12 TB of SSD and 48 Cores. ](https://www.vultr.com/pricing/#bare-metal)
+* A server can be hosted on an environment that provides a Net Core runtime, anything from a [3$/Month ARM ](https://www.vultr.com/pricing/#cloud-compute/) to a [$14,000/Month monster server with 8x NVIDIA A100, 1TB of Ram, 12 TB of SSD and 48 Cores. ](https://www.vultr.com/pricing/#bare-metal)
 
 
 
@@ -68,7 +77,7 @@ The client Apex code has very simple open API. This allows Salesforce to call th
 * How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
 * In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case
-* Salesforce functions do not count against your API limits while ASF calls your regular inbound REST API and count against your API limits (This issue will go away with API user licences being standard now)
+* Salesforce functions do not count against your API limits while ASF calls your regular inbound REST API and count against your API limits (This issue will go away with API user licenses being standard now)
 
 
 
@@ -144,7 +153,7 @@ The primary services provided by the SDK are&#x20;
 
 **Web Assembly on Server**
 
-A lot of work is going on in running applications on Web Assembly container that supports [C#](https://blog.jetbrains.com/dotnet/2022/12/15/the-future-of-net-with-wasm/) . Currently I working with [Fermyon. ](https://www.fermyon.com/blog/webassembly-for-dotnet-developers-spin-sdk-intro)The biggest advantage of Web Assembly are
+A lot of work is going on in running applications on Web Assembly container that supports [C#](https://blog.jetbrains.com/dotnet/2022/12/15/the-future-of-net-with-wasm/) . Currently, I working with [Fermyon. ](https://www.fermyon.com/blog/webassembly-for-dotnet-developers-spin-sdk-intro)The biggest advantage of Web Assembly are
 
 * Applications developed using multiple languages can be compiled into a single image
 * The small size allows it to be run on IoT devices
