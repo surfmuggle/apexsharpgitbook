@@ -7,20 +7,22 @@ description: C# (Microsoft .NET) support for Salesforce functions developers.
 Note: This project is not released yet because
 
 1. Still in the alpha stage. Its more of a proof of concept to show how C# can be used to support Salesforce Functions
-2. Even though I work on these types of projects on my own time, I still work for Salesforce thus Salesforce OSS legal needs to approve it before its put to public use
+2. Even though I work on these types of projects on my own time, I still work for Salesforce thus, Salesforce OSS legal needs to approve it before its put to public use
 
-If you have questions please reach out to me at [jjanarthanan@salesforce.com](mailto://jjanarthanan@salesforce.com)
+If you have questions, please reach out to me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan'
 
 
 
-**Open source tools we use**
+
+
+**Open source tools used on this project**
 
 * [Net Core](https://dotnet.microsoft.com/en-us/)
 * [Cloud Events](https://cloudevents.io/)
 * [0MQ](https://zeromq.org/)
 * [Kubernetes ](https://kubernetes.io/)and [Paketo](https://paketo.io/)
 
-The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)) . The server application you have written can be used by any [Cloud Events](https://cloudevents.io/) client. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python
+The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)) thus any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python
 
 The client Apex code has very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, Flow for Industry (Omniscript, Integration Procedure, Flex cards)&#x20;
 
