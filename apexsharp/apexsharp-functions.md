@@ -4,10 +4,11 @@ description: C# (Microsoft .NET) support for Salesforce functions developers.
 
 # ApexSharp Functions
 
-Note: This project is not released yet because
+Note: This project is not released to public yet because
 
-1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can be implemented in C# on the server side.
+1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can support C# on the server side and also various hosting option, not just Heroku
 2. Despite the fact that I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
+3. This project is based on [ApexSharp](https://github.com/apexsharp/) open source project I worked in the past and it has been approved by SF legal as a OSS project.&#x20;
 
 Please feel free to contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
 
@@ -34,7 +35,7 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
   * For dealing with large-scale Salesforce data, use Heroku Connect
 * Amazon AWS
 * Microsoft Azure
-  * [Azure Functions](https://azure.microsoft.com/en-us/products/functions/): This event-driven serverless service is the easiest open with all most zero management.&#x20;
+  * [Azure Functions](https://azure.microsoft.com/en-us/products/functions/): This event-driven serverless service is the easiest option with zero management and automatic scalability.&#x20;
   * [App Service](https://azure.microsoft.com/en-us/products/app-service/)
   * [Azure Virtual Machines](https://azure.microsoft.com/en-us/products/virtual-machines/) and [Azure Virtual Machine Scale Sets](https://azure.microsoft.com/en-us/products/virtual-machine-scale-sets/)
   * [Azure Container Apps](https://azure.microsoft.com/en-us/products/container-apps)
@@ -44,8 +45,9 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
   * [Azure provides well over 200 services](https://azure.microsoft.com/en-us/products/); all these services provide C# SDK thus, you can extend your server side functions to use these services.&#x20;
 * Google Cloud
 * Kubernetes Container providers such as [Digitalocean](https://www.digitalocean.com/) and [Vultr ](https://www.vultr.com/)
-* Raspberry Pi. Net Core is available on Pi and our server side code is 100% Net Core
+* Raspberry Pi. Net Core is available on Pi and our server side code is 100% Net Core. [See demo here.](https://medium.com/@cmendibl3/step-by-step-running-asp-net-core-on-raspberry-pi-9ef224f2e750)
 * Your own Datacenter with Windows, Linux, Macs
+* Functions can be deployed to edge service providers such as [fly.io](https://fly.io/docs/reference/builders/#buildpacks) as they support Paketo buildpacks &#x20;
 
 
 
@@ -77,7 +79,8 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 * How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
 * In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case.
-* Salesforce functions do not count against your API limits while ASF calls your regular inbound REST API and count against your API limits (This issue will go away with API user licenses being standard now)
+* While SF does not count outgoing API calls, they set limits on incoming REST calls. ASF calls  inbound REST API for CRUD and Callbacks and count against your API limits  Most use cases for functions are Request / Reply and this does not use inbound API.&#x20;
+  * Note: This issue will go away with API user licenses being standard. I am testing more to see the overall limitations of REST calls inbound and outbound now.&#x20;
 
 
 
@@ -158,6 +161,14 @@ A lot of work is going on in running applications on Web Assembly container that
 * Serverless Applications developed using multiple languages can be compiled into a single image
 * The small size allows it to be run on IoT devices
 * Most all the edge based servelss vendors are supporting Web Assembly
+
+**Demo**
+
+Currently I have a very simple demo on running on Microsoft Azure and a Salesforce developer sandbox. In this demo I pass some data to Azure using Functions, and on the server side it creates a PDF using [QuestPDF ](https://github.com/QuestPDF/QuestPDF)(Amazing open source PDF creation tool) and uploads the PDF to a CDN and returns the URL of the PDF back to Salesforce. Contact me if you want to see the source or the demo.&#x20;
+
+
+
+Working on another demo that will do some CRUD on the server side and also will do a callback to SF. This shows how you can run long running functions.&#x20;
 
 
 
