@@ -4,13 +4,28 @@ description: C# (Microsoft .NET) support for Salesforce functions developers.
 
 # ApexSharp Functions
 
-Note: This project is not released to public yet because
+Note: This project is not released to the public yet because
 
 1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can support C# on the server side and also various hosting option, not just Heroku
-2. Despite the fact that I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
+2. Although I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
 3. This project is based on [ApexSharp](https://github.com/apexsharp/) open source project I worked in the past and it has been approved by SF legal as a OSS project.&#x20;
 
-Please feel free to contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
+Please contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
+
+
+
+**Goals**
+
+Develop an open standard so anyone can develop a server SDK on any programming language and deploy it to any cloud provider. This can be open source or commercial.&#x20;
+
+* On the client side (Salesforce org), provide a set of Apex base classes. Keep them compatible with the current Function implementation.&#x20;
+* Provide the message structures (JSON Schema) that will be used to communicate between SF and the cloud provider. This will be based on [Cloud Events. ](https://cloudevents.io/)
+* The server SDK provider will implement these message structure
+* Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
+
+This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider.&#x20;
+
+The current goal of the project is to provide a C# based server-side SDK as proof of concept.&#x20;
 
 
 
@@ -21,7 +36,7 @@ Please feel free to contact me at jjanarthanan@salesforce.com or on Slack at 'Ja
 * [0MQ](https://zeromq.org/)
 * [Kubernetes ](https://kubernetes.io/)and [Paketo](https://paketo.io/)
 
-The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)) thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python
+The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)); thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python.
 
 The client Apex code has a very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, and Flow for Industry (Omniscript, Integration Procedure, Flex cards)&#x20;
 
@@ -78,7 +93,7 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 * You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce.
 * How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
-* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad depending on the use case.
+* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad, depending on the use case.
 * While SF does not count outgoing API calls, they set limits on incoming REST calls. ASF calls  inbound REST API for CRUD and Callbacks and count against your API limits  Most use cases for functions are Request / Reply and this does not use inbound API.&#x20;
   * Note: This issue will go away with API user licenses being standard. I am testing more to see the overall limitations of REST calls inbound and outbound now.&#x20;
 
