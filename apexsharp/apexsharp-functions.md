@@ -74,7 +74,7 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 
 **Advantages of Salesforce Functions over ApexSharp Functions**
 
-* ApexSharp Functions (ASF) is an open source project that is still in development. With Salesforce Function you get a backing of a 200 billion company.&#x20;
+* ApexSharp Functions (ASF) is an open source project that is still in development. With Salesforce Function you get a backing of a 200 billion dollar company.&#x20;
 * You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce.
 * How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
 * From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
@@ -96,7 +96,7 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 
 ApexSharp contains two parts, client SDK and server SDK. The client SDK is Apex and it runs on your Salesforce org. You can call the client using Apex, LWC, Flow or Flow for Industry.&#x20;
 
-The server SDK isbased on C# that is compatible with any .NET languages and runs on any environment where you can run .NET Core.&#x20;
+The server SDK is developed C# that is compatible with any .NET languages and runs on any environment where you can run .NET Core.&#x20;
 
 **Apex Client SDK**
 
@@ -166,9 +166,17 @@ A lot of work is going on in running applications on Web Assembly container that
 
 Currently I have a very simple demo on running on Microsoft Azure and a Salesforce developer sandbox. In this demo I pass some data to Azure using Functions, and on the server side it creates a PDF using [QuestPDF ](https://github.com/QuestPDF/QuestPDF)(Amazing open source PDF creation tool) and uploads the PDF to a CDN and returns the URL of the PDF back to Salesforce. Contact me if you want to see the source or the demo.&#x20;
 
-
-
 Working on another demo that will do some CRUD on the server side and also will do a callback to SF. This shows how you can run long running functions.&#x20;
+
+My primary concentration now is to show how the server code can be deployed on multiple environments.&#x20;
+
+1. [Azure App Service](https://azure.microsoft.com/en-us/products/app-service/) (Done)
+2. Heroku using Net Core [Paketo](https://paketo.io/docs/howto/dotnet-core/) Buildpacks
+3. [Azure Functions ](https://azure.microsoft.com/en-us/products/functions/)
+4. Kubernetes Container providers [Digitalocean](https://www.digitalocean.com/)
+5. Dedicated Server on [Tier.Net, ](https://www.tier.net/)an ultralow cost dedicated service provider. 20 Cores and 192 GB of ram for about 150$/Month.&#x20;
+
+
 
 
 
