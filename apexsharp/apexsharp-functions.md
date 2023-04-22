@@ -8,7 +8,7 @@ Note: This project is not released to the public yet because
 
 1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can support C# on the server side and also various hosting option, not just Heroku
 2. Although I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
-3. This project is based on [ApexSharp](https://github.com/apexsharp/) open source project I worked in the past and it has been approved by SF legal as a OSS project.&#x20;
+3. This project is based on [ApexSharp](https://github.com/apexsharp/) open-source project I worked on in the past and it has been approved by SF legal as an OSS project.&#x20;
 
 Please contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
 
@@ -23,7 +23,7 @@ Develop an open standard so anyone can develop a server SDK on any programming l
 * The server SDK provider will implement these message structure
 * Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
 
-This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. The API specification can be found here.&#x20;
+This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-functions-api.md).&#x20;
 
 
 
@@ -111,7 +111,7 @@ ASF Project is open source, but by supporting it and offering this to  Salesforc
 
 **High-Level Architecture**
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 **How it all works**
 
