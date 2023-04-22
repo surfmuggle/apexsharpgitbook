@@ -23,22 +23,24 @@ Develop an open standard so anyone can develop a server SDK on any programming l
 * The server SDK provider will implement these message structure
 * Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
 
-This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider.&#x20;
-
-The current goal of the project is to provide a C# based server-side SDK as proof of concept.&#x20;
+This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. The API specification can be found here.&#x20;
 
 
+
+
+
+**The current goal of the project is to provide a C# based server-side SDK as proof of concept.**&#x20;
 
 **Open-source tools used in this project**
 
 * [Net Core](https://dotnet.microsoft.com/en-us/)
 * [Cloud Events](https://cloudevents.io/)
-* [0MQ](https://zeromq.org/)
+* [0MQ](https://zeromq.org/) / [gRPC](https://grpc.io/)
 * [Kubernetes ](https://kubernetes.io/)and [Paketo](https://paketo.io/)
 
 The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)); thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python.
 
-The client Apex code has a very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, and Flow for Industry (Omniscript, Integration Procedure, Flex cards)&#x20;
+The client Apex code has a very simple open API. This allows Salesforce to call the client API from Apex, LWC, Flow, and Flow for Industry (Omniscript, Integration Procedure, Flex cards). Currently, the Apex API allows 1:1 mapping with the current [Functions Apex](https://developer.salesforce.com/docs/atlas.en-us.242.0.apexref.meta/apexref/apex\_namespace\_functions.htm) implementation &#x20;
 
 
 
@@ -68,7 +70,8 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 
 **Advantages of ApexSharp Functions over Salesforce Functions** &#x20;
 
-* Open source, which means its free.
+* Open source, which means it's free.
+* The [limits of current Function implementation](https://developer.salesforce.com/docs/platform/functions/guide/limits#apex-limits-and-functions) can be overcome.
 * Using open standards allows it to work with any type of client, not just Salesforce.
 * You have a large pool of C# developers Net Core is available on Windows, Linux and Mac
 * C# has a very large 3rd party library support, over 350K packages on [NuGet](https://www.nuget.org/)
@@ -87,14 +90,17 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 
 
 
-**Advantages of Salesforce Functions over ApexSharp Functions**
+**Advantages of Salesforce / Heroku**
 
-* ApexSharp Functions (ASF) is an open source project that is still in development. With Salesforce Function you get a backing of a 200 billion dollar company.&#x20;
-* You are dealing with one vendor and one team for your business and technical issues when you work with Salesforce.
-* How Salesforce functions communicate to Heroku is internal to Salesforce. In ASF we use the public network over SSL. You can always host on Amazon AWS and use [Salesforce Private Connect](https://help.salesforce.com/s/articleView?id=sf.private\_connect\_overview.htm\&type=5) for a direct connection between your AWS services and SF.
-* From a network view Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer. Your data never leaves Salesforce owned and operated system.&#x20;
-* In ASF, if you need to perform DML or callbacks from the server you need to pass the users session id and those operations will run under the user context. This may be good and bad, depending on the use case.
-* While SF does not count outgoing API calls, they set limits on incoming REST calls. ASF calls  inbound REST API for CRUD and Callbacks and count against your API limits  Most use cases for functions are Request / Reply and this does not use inbound API.&#x20;
+ASF Project is open source, but by supporting it and offering this to  Salesforce customers here are the advantages&#x20;
+
+* Attract a large set of developers who can support various programming languages
+* Enterprise customers prefer to buy it from Salesforce
+* Enterprise customers prefer to deal with a single vendor, in this case, sell Heroku offerings, more revenue for Heroku
+* Dealing with one vendor and one team for your business and technical issues when you work with Salesforce.
+* How Salesforce functions communicate to Heroku can be internal to Salesforce. From a network view, Salesforce and Heroku can be considered a single network thus providing lower latency and an extra security layer.&#x20;
+* Salesforce has the freedom to optimize the connectivity between SF and Heroku. For example use tools such as [Riverbed SteelHead](https://www.riverbed.com/products/steelhead-interceptor/)
+* While SF does not count outgoing API calls, they set limits on incoming REST calls. Function calls inbound REST API for CRUD and Callbacks. Salesforce can remove this limit for customers who are using Heroku
   * Note: This issue will go away with API user licenses being standard. I am testing more to see the overall limitations of REST calls inbound and outbound now.&#x20;
 
 
@@ -103,13 +109,13 @@ The client Apex code has a very simple open API. This allows Salesforce to call 
 
 
 
-**High Level Architecture**
+**High-Level Architecture**
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 **How it all works**
 
-ApexSharp contains two parts, client SDK and server SDK. The client SDK is Apex and it runs on your Salesforce org. You can call the client using Apex, LWC, Flow or Flow for Industry.&#x20;
+ApexSharp contains two parts, client SDK and server SDK. The client SDK is Apex and it runs on your Salesforce org. You can call the client using Apex, LWC, Flow, or Flow for Industry.&#x20;
 
 The server SDK is developed C# that is compatible with any .NET languages and runs on any environment where you can run .NET Core.&#x20;
 
@@ -137,7 +143,7 @@ public static string ApexSharpFunctionGet() {
 }
 ```
 
-As you see all we have to do is to remove the **"functions."** namespace from you existing code.&#x20;
+As you see all we have to do is to remove the **"functions."** namespace from your existing code.&#x20;
 
 For example
 
@@ -153,21 +159,24 @@ A simple search and replace will do the trick.&#x20;
 
 **LWC, Flow, Flow for Industry**
 
-A UI-less LWC SDK is in the works, this can be used on Salesforce pages, Flow and Flow for Industry.&#x20;
+A UI-less LWC SDK is in the works, this can be used on Salesforce pages, Flow, and Flow for Industry.&#x20;
 
 
 
 **Server Side SDK**
 
-The Server SDK is a .NET Nuget package and Open Source C# code and based on [ApexSharp ](https://github.com/apexsharp/), which has become a Salesforce approved open source project &#x20;
+The Server SDK is a .NET Nuget package and Open Source C# code based on [ApexSharp ](https://github.com/apexsharp/), which has become a Salesforce-approved open-source project &#x20;
 
 The primary services provided by the SDK are&#x20;
 
-* Bi directional connection to Salesforce
+* Bi-directional connection to Salesforce
 * Logging&#x20;
-* User defined Security
+* User-defined Security
 * Access to Salesforce objects through Metadata and Tooling API&#x20;
-* 0MQ support for interoperability with other programing languages
+* 0MQ support for interoperability with other programming languages
+* Realtime monitoring of functions that are executing
+
+
 
 **Web Assembly on Server**
 
