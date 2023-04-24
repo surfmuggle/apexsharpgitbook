@@ -10,7 +10,6 @@ description: Anyone who wants to implement Functions on Server or Client side.
 
 
 
-````
 ```json
 {
   "specversion": "1.0",
@@ -22,9 +21,8 @@ description: Anyone who wants to implement Functions on Server or Client side.
   "comexampleothervalue": 5,
   "datacontenttype": "application/json",
   "data": "base64"
-}
+}n
 ```
-````
 
 
 
