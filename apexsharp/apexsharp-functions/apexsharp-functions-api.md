@@ -6,7 +6,7 @@ description: Anyone who wants to implement Functions on Server or Client side.
 
 ##
 
-## Request JSON
+## Request JSON (Work in Progress)
 
 
 
@@ -21,7 +21,7 @@ description: Anyone who wants to implement Functions on Server or Client side.
   "comexampleothervalue": 5,
   "datacontenttype": "application/json",
   "data": "base64"
-}n
+}
 ```
 
 
