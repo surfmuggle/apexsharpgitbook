@@ -20,6 +20,7 @@ description: Anyone who wants to implement Functions on Server or Client side.
   "comexampleextension1": "value",
   "comexampleothervalue": 5,
   "datacontenttype": "application/json",
+  "functioncallback":"ApexClass", 
   "data": "base64"
 }
 ```
