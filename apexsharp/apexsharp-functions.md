@@ -135,7 +135,7 @@ public static string SalesforceFunctionGet() {
 
 Modified Code to work with ApexSharp Functions
 
-```csharp
+```apex
 public static string ApexSharpFunctionGet() {
   Function accountFunction = Function.get('MyProject.AccountFunction');
   FunctionInvocation invocation = accountFunction.invoke('{ "accountName" : "Acct", "contactName" : "MyContact", "opportunityName" : "Oppty" }');
