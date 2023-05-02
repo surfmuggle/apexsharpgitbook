@@ -10,9 +10,7 @@ Allow anyone to use **any** Apex Functions library and **any** server-side code 
 
 **Server Setup**
 
-The server should provide an HTTPS endpoint that can accept a POST and the URI will be /functions&#x20;
-
-E.g., https://api.apexfunctions.com/functions
+The server should provide an HTTPS endpoint that can accept a POST, and the URI will be /functions&#x20;
 
 {% swagger method="post" path="/functions" baseUrl="https://api.apexfunctions.com" summary="" expanded="false" %}
 {% swagger-description %}
