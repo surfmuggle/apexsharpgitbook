@@ -4,7 +4,7 @@ description: An open-source API specification for Salesforce Functions
 
 # ApexSharp Functions API
 
-### Goal
+**Goal**
 
 Allow anyone to use **any** Apex Functions library and **any** server-side code in **any** programming language in **any** cloud provider.
 
@@ -13,6 +13,18 @@ Allow anyone to use **any** Apex Functions library and **any** server-side code 
 The server should provide an HTTPS endpoint that can accept a POST and the URI will be /functions&#x20;
 
 E.g., https://api.apexfunctions.com/functions
+
+{% swagger method="get" path="" baseUrl="https://api.apexfunctions.com" summary="" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+
+{% swagger-response status="200: OK" description="" %}
+```
+// Some code
+```
+{% endswagger-response %}
+{% endswagger %}
 
 [**Function Class**](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex\_class\_functions\_Function.htm#apex\_class\_functions\_Function)\
 
@@ -44,7 +56,7 @@ System.debug(res.getBody());
 
 **AccountFunction** is the name of the function that is passed to the server.
 
-### Request JSON (Work in Progress)
+**Request JSON (Work in Progress)**
 
 ```json
 {
@@ -64,7 +76,7 @@ System.debug(res.getBody());
 
 
 
-### Response JSON (Work in Progress)
+**Response JSON (Work in Progress)**
 
 ```json
 {
