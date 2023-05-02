@@ -6,11 +6,19 @@ description: An open-source API specification for Salesforce Functions
 
 **Goal**
 
-Allow anyone to use **any** Apex Functions library and **any** server-side code in **any** programming language in **any** cloud provider.
+Allow anyone to use Apex Functions using server-side code developed in **any** programming language hosted in **any** cloud provider.
 
-**Server Setup**
+<figure><img src="../../.gitbook/assets/SFFunctions.png" alt=""><figcaption></figcaption></figure>
 
-The server should provide an HTTPS endpoint that can accept a POST, and the URI will be /functions&#x20;
+1. Anyone should be able to develop an SDK in any programming language that will support Apex Functions.
+2. Developers who are using these SDKs should be able to deploy their applications in any cloud that supports [CNCF](https://www.cncf.io/).
+3. SDKs should pass automated testing to prove they can work with SF functions.&#x20;
+
+&#x20;
+
+**Server SDK Setup**
+
+The server should provide an HTTPS endpoint that can accept a POST, and the URI will be /functions.&#x20;
 
 {% swagger method="post" path="/functions" baseUrl="https://api.apexfunctions.com" summary="" expanded="false" %}
 {% swagger-description %}
