@@ -6,57 +6,18 @@ description: An open-source API specification for Salesforce Functions
 
 ### Goal
 
-Allow anyone to use **any** Apex Functions library and **any** Server side code in **any** programming language in **any** cloud provider.
+Allow anyone to use **any** Apex Functions library and **any** server-side code in **any** programming language in **any** cloud provider.
 
-The server should provide an API Post Link with the URI /functions&#x20;
+**Server Setup**
 
-E.g.:&#x20;
+The server should provide an HTTPS endpoint that can accept a POST and the URI will be /functions&#x20;
 
-From Salesforce, the above URL will be called with a POST method.
+E.g., https://api.apexfunctions.com/functions
 
-###
-
-### Request JSON (Work in Progress)
+[**Function Class**](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex\_class\_functions\_Function.htm#apex\_class\_functions\_Function)\
 
 
-
-```json
-{
-  "userSessionId" : "SESSION_ID_REMOVED",
-  "userName" : "apexfunctions@demo.com",
-  "type" : "Azure.QRCode",
-  "timeStamp" : "4/29/2023, 11:02:21 AM PDT",
-  "specversion" : "1.0",
-  "source" : "https://server.develop.my.salesforce.com",
-  "orgId" : "00DDo000001AEWSMA5",
-  "id" : "01GZ72W7GFRMQDYCHM6ZZ9C0D1",
-  "datacontenttype" : "application/json",
-  "data_base64" : null,
-  "data" : "{\"AccountId\":\"123\"}"
-}
-```
-
-### Response JSON (Work in Progress)
-
-```json
-{
-  "userName" : "apexfunctions@demo.com",
-  "totalTime" : 123,
-  "timeCompleted" : "2023-04-29T18:02:21.598Z",
-  "serverName" : "Azure Lambada Server One",
-  "response" : "{\"AccountId\":\"123\"}",
-  "orgId" : "00DDo000001AEWSMA5",
-  "invocationStatus" : "SUCCESS",
-  "invocationId" : "01GZ72W7GFRMQDYCHM6ZZ9C0D1",
-  "function" : "Azure.QRCode",
-  "error" : ""
-}
-```
-
-
-
-* [**Function Class**](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex\_class\_functions\_Function.htm#apex\_class\_functions\_Function)\
-  Use the Function class to access deployed Salesforce Functions and invoke them synchronously or asynchronously.
+Use the Function Apex class to access deployed Salesforce Functions and invoke them synchronously or asynchronously.
 
 This is the primary class all users will use. The sample code will look as follows.&#x20;
 
@@ -68,11 +29,62 @@ public static string ApexSharpFunctionGet() {
 }
 ```
 
-Note the line _Function.get('MyProject.AccountFunction');_ . The value we are passing MyProject.AccountFunction.&#x20;
+Note the line _Function.get('MyProject.AccountFunction');_ The value we are passing MyProject.AccountFunction.&#x20;
 
-MyProject is the URL that we set it up in
+MyProject is the name of the [named credential](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex\_callouts\_named\_credentials.htm) if the URL is set to https://api.apexfunctions.com/ in a named credential called "MyProject" The callout will look like
 
-AccountFunction is the name of the function that is passed to the server
+```apex
+HttpRequest req = new HttpRequest();
+req.setEndpoint('callout:MyProject/functions');
+req.setMethod('POST');
+Http http = new Http();
+HTTPResponse res = http.send(req);
+System.debug(res.getBody());
+```
+
+**AccountFunction** is the name of the function that is passed to the server.
+
+### Request JSON (Work in Progress)
+
+```json
+{
+  "userSessionId" : "SESSION_ID_REMOVED",
+  "userName" : "apexfunctions@demo.com",
+  "type" : "AccountFunction",
+  "timeStamp" : "4/29/2023, 11:02:21 AM PDT",
+  "specversion" : "1.0",
+  "source" : "https://server.develop.my.salesforce.com",
+  "orgId" : "00DDo000001AEWSMA5",
+  "id" : "01GZ72W7GFRMQDYCHM6ZZ9C0D1",
+  "datacontenttype" : "application/json",
+  "data_base64" : null,
+  "data" : "{\"AccountId\":\"123\"}"
+}
+```
+
+
+
+### Response JSON (Work in Progress)
+
+```json
+{
+  "userName" : "apexfunctions@demo.com",
+  "totalTime" : 123,
+  "timeCompleted" : "2023-04-29T18:02:21.598Z",
+  "serverName" : "Azure Lambada Server One",
+  "source" : "https://server.develop.my.salesforce.com",
+  "response" : "{\"AccountId\":\"123\"}",
+  "orgId" : "00DDo000001AEWSMA5",
+  "invocationStatus" : "SUCCESS",
+  "invocation":"01GZ72W7GFRMQDYCHM6ZZ9C0D1",
+  "function":"AccountFunction",
+  "error" : ""
+}
+```
+
+
+
+
 
 
 
