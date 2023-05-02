@@ -14,14 +14,38 @@ The server should provide an HTTPS endpoint that can accept a POST and the URI w
 
 E.g., https://api.apexfunctions.com/functions
 
-{% swagger method="get" path="" baseUrl="https://api.apexfunctions.com" summary="" %}
+{% swagger method="post" path="/functions" baseUrl="https://api.apexfunctions.com" summary="" expanded="true" %}
 {% swagger-description %}
-
+Call the server
 {% endswagger-description %}
 
+{% swagger-parameter in="body" required="true" %}
+
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" name="" required="true" %}
+
+{% endswagger-parameter %}
+
+{% swagger-parameter in="body" type="int" %}
+sfasdf sfss 
+{% endswagger-parameter %}
+
 {% swagger-response status="200: OK" description="" %}
-```
-// Some code
+```json
+{
+  "userSessionId" : "SESSION_ID_REMOVED",
+  "userName" : "apexfunctions@demo.com",
+  "type" : "AccountFunction",
+  "timeStamp" : "4/29/2023, 11:02:21 AM PDT",
+  "specversion" : "1.0",
+  "source" : "https://server.develop.my.salesforce.com",
+  "orgId" : "00DDo000001AEWSMA5",
+  "id" : "01GZ72W7GFRMQDYCHM6ZZ9C0D1",
+  "datacontenttype" : "application/json",
+  "data_base64" : null,
+  "data" : "{\"AccountId\":\"123\"}"
+}
 ```
 {% endswagger-response %}
 {% endswagger %}
