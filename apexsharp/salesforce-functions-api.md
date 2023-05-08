@@ -6,9 +6,20 @@ description: An open-source API specification for Salesforce Functions
 
 **Goal**
 
-Allow anyone to use Apex Functions using server-side code developed in **any** programming language hosted in **any** cloud provider.
+Apex Functions support for server SDK developed in  **ANY** programming language hosted in **ANY** infrastructure, be it local or cloud.&#x20;
 
 <figure><img src="../.gitbook/assets/SFFunctions.png" alt=""><figcaption></figcaption></figure>
+
+**Goals**
+
+Develop an open standard so anyone can develop a server SDK on any programming language and deploy it to any cloud provider. This can be open source or commercial.&#x20;
+
+* On the client side (Salesforce org), provide a set of Apex base classes. Keep them compatible with the current Function implementation.&#x20;
+* Provide the message structures (JSON Schema) that will be used to communicate between SF and the cloud provider. This will be based on [Cloud Events. ](https://cloudevents.io/)
+* The server SDK provider will implement these message structure
+* Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
+
+This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-functions-api.md).&#x20;
 
 1. Anyone should be able to develop an SDK in any programming language that will support Apex Functions.
 2. Developers who are using these SDKs should be able to deploy their applications in any cloud that supports [CNCF](https://www.cncf.io/).

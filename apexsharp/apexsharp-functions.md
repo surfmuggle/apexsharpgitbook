@@ -4,26 +4,16 @@ description: C# (Microsoft .NET) Server Side SDK for Salesforce Functions
 
 # ApexSharp Functions
 
-Note: This project is not released to the public yet because
+Please note that this project is not yet available to the public because
 
 1. Currently, in alpha, this is just a proof-of-concept showing how Salesforce Functions can support C# on the server side and also various hosting option, not just Heroku
-2. Although I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public
-3. This project is based on [ApexSharp](https://github.com/apexsharp/) open-source project I worked on in the past and it has been approved by SF legal as an OSS project.&#x20;
+2. Although I work on these types of projects on my own time, Salesforce OSS legal must approve them before they can be made public, as Salesforce still employs me
 
-Please contact me at jjanarthanan@salesforce.com or on Slack at 'Jay Janarthanan' if you have any questions.
-
+If you have questions or comments, you can reach me on [LinkedIn ](https://www.linkedin.com/in/jayonsoftware/)
 
 
-**Goals**
 
-Develop an open standard so anyone can develop a server SDK on any programming language and deploy it to any cloud provider. This can be open source or commercial.&#x20;
 
-* On the client side (Salesforce org), provide a set of Apex base classes. Keep them compatible with the current Function implementation.&#x20;
-* Provide the message structures (JSON Schema) that will be used to communicate between SF and the cloud provider. This will be based on [Cloud Events. ](https://cloudevents.io/)
-* The server SDK provider will implement these message structure
-* Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
-
-This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-functions-api.md).&#x20;
 
 
 
