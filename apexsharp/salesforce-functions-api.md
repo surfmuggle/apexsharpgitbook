@@ -25,7 +25,7 @@ This will allow anyone to use **any** Apex Functions code and **any** Server sid
 2. Developers who are using these SDKs should be able to deploy their applications in any cloud that supports [CNCF](https://www.cncf.io/).
 3. SDKs should pass automated testing to prove they can work with SF functions.&#x20;
 
-&#x20;
+&#x20;The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)); thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python.
 
 **Server SDK Setup**
 
