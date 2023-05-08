@@ -23,7 +23,7 @@ Develop an open standard so anyone can develop a server SDK on any programming l
 * The server SDK provider will implement these message structure
 * Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
 
-This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-functions-api.md).&#x20;
+This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-api.md).&#x20;
 
 
 
