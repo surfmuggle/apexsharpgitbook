@@ -2,11 +2,11 @@
 description: An open-source API specification for Salesforce Functions
 ---
 
-# ApexSharp Functions API
+# ApexSharp API
 
 
 
-Please go to&#x20;
+[Please go to ](../salesforce-functions-api.md)
 
 ##
 
