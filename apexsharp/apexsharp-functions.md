@@ -1,5 +1,5 @@
 ---
-description: C# (Microsoft .NET) support for Salesforce functions developers.
+description: C# (Microsoft .NET) Server Side SDK for Salesforce Functions
 ---
 
 # ApexSharp Functions
