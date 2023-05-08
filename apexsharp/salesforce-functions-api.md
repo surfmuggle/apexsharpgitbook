@@ -10,31 +10,46 @@ Apex Functions support for server SDK developed in  **ANY** programming language
 
 <figure><img src="../.gitbook/assets/SFFunctions.png" alt=""><figcaption></figcaption></figure>
 
-**Goals**
-
 Develop an open standard so anyone can develop a server SDK on any programming language and deploy it to any cloud provider. This can be open source or commercial.&#x20;
 
-* On the client side (Salesforce org), provide a set of Apex base classes. Keep them compatible with the current Function implementation.&#x20;
-* Provide the message structures (JSON Schema) that will be used to communicate between SF and the cloud provider. This will be based on [Cloud Events. ](https://cloudevents.io/)
-* The server SDK provider will implement these message structure
-* Provide a set of Testing assets to test the implementation. These will be Apex and also Postman projects
 
-This will allow anyone to use **any** Apex Functions code and **any** Server side code in **any** programming language in **any** cloud provider. [The API specification can be found here](apexsharp-functions/apexsharp-functions-api.md).&#x20;
 
-1. Anyone should be able to develop an SDK in any programming language that will support Apex Functions.
-2. Developers who are using these SDKs should be able to deploy their applications in any cloud that supports [CNCF](https://www.cncf.io/).
-3. SDKs should pass automated testing to prove they can work with SF functions.&#x20;
+**Salesforce to Provide**&#x20;
 
-&#x20;The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)); thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python.
+* Provide a set of Apex interfaces. Keep them compatible with the current Function implementation.&#x20;
+* Provide the message structures (JSON Schema) that will be used to communicate between SF Function and the Functions server.&#x20;
+* Provide a set of Testing assets to test the implementation to ensure they meet the standards. These will be Apex and also Postman projects.
+
+
+
+**Server Side SDK provider to provide at a minimum.**
+
+* Support the Functions messaging standard.&#x20;
+* Request-Reply support (1:1)
+* Call back support (1:1 and 1:M)
+* Ability to perform CRUD on Salesforce object
+* Pass the Apex Functions confirmation Test.&#x20;
+
+The client-server communication is based on open standards ([Cloud Events](https://cloudevents.io/)); thus, any Cloud Events client can use the server application you have written. Cloud Events provides SDKs for Go, JavaScript, Java, C#, Ruby, PHP, PowerShell, Rust, and Python.
 
 **Server SDK Setup**
 
 The server should provide an HTTPS endpoint that can accept a POST, and the URI will be /functions.&#x20;
 
-{% swagger method="post" path="/functions" baseUrl="https://api.apexfunctions.com" summary="" expanded="false" %}
+{% swagger method="post" path="/functions" baseUrl="https://api.apexfunctions.com" summary="Start a function by posting data to this URL" expanded="false" %}
 {% swagger-description %}
 
 {% endswagger-description %}
+{% endswagger %}
+
+{% swagger method="get" path="/functions" baseUrl="https://api.apexfunctions.com" summary="Get details about running functions and performance metrics. " %}
+{% swagger-description %}
+(Need to define a JSON Format)
+{% endswagger-description %}
+
+{% swagger-parameter in="body" %}
+
+{% endswagger-parameter %}
 {% endswagger %}
 
 [**Function Class**](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex\_class\_functions\_Function.htm#apex\_class\_functions\_Function)\
@@ -58,14 +73,14 @@ MyProject is the name of the [named credential](https://developer.salesforce.com
 
 ```apex
 HttpRequest req = new HttpRequest();
-req.setEndpoint('callout:MyProject/functions');
+req.setEndpoint('callout:MyProject/AccountFunction');
 req.setMethod('POST');
 Http http = new Http();
 HTTPResponse res = http.send(req);
 System.debug(res.getBody());
 ```
 
-**AccountFunction** is the name of the function that is passed to the server.
+`AccountFunction` is the name of the function that is passed to the server.
 
 **Request JSON (Work in Progress)**
 
@@ -85,7 +100,19 @@ System.debug(res.getBody());
 }
 ```
 
-
+| JSON Property   | Description        |
+| --------------- | ------------------ |
+| userSessionId   |                    |
+| userName        |                    |
+| type            |                    |
+| timeStamp       |                    |
+| specversion     |                    |
+| source          |                    |
+| orgId           |                    |
+| id              |                    |
+| datacontenttype |                    |
+| data\_base64    | Do we need this ?  |
+| data            |                    |
 
 **Response JSON (Work in Progress)**
 
@@ -101,11 +128,22 @@ System.debug(res.getBody());
   "invocationStatus" : "SUCCESS",
   "invocation":"01GZ72W7GFRMQDYCHM6ZZ9C0D1",
   "function":"AccountFunction",
-  "error" : ""
+  "error" : "
 }
 ```
 
-
+| JSON Property | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| userName      |                                                      |
+| totalTime     |                                                      |
+| timeCompleted |                                                      |
+| serverName    |                                                      |
+| source        |                                                      |
+| orgId         |                                                      |
+| invocationid  | This should be id but that is  a reserved word in SF |
+| function      |                                                      |
+| error         |                                                      |
+| response      |                                                      |
 
 
 
