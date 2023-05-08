@@ -6,7 +6,7 @@ description: An open-source API specification for Salesforce Functions
 
 
 
-[Please go to ](../salesforce-functions-api.md)
+[Click here to go to the new page](../salesforce-functions-api.md)
 
 ##
 
