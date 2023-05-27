@@ -147,7 +147,7 @@ The Server SDK is a .NET Nuget package and Open Source C# code based on [ApexSha
 
 The primary services provided by the SDK are&#x20;
 
-* Support for [Salesforce Functions API specification.](apexsharp-functions/apexsharp-functions-api.md)&#x20;
+* Support for [Salesforce Functions API specification.](broken-reference)&#x20;
 * 1-1 Request Reply support.&#x20;
 * 1-1 and 1-M callback support.&#x20;
 * Integration with [Salesforce Pub / Sub ](https://developer.salesforce.com/docs/platform/pub-sub-api/guide/intro.html)using grpC&#x20;
