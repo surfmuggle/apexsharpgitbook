@@ -15,7 +15,7 @@ If you have questions or comments, you can reach me on [LinkedIn ](https://www.l
 
 **Goal**
 
-Provide a Cloud vendor agonist C# based server-side SDK for Salesforce Functions that is compatible with the open [Salesforce Functions API](salesforce-functions-api.md)
+Provide a Cloud vendor agnostic C# based server-side SDK for Salesforce Functions that is compatible with the open [Salesforce Functions API](salesforce-functions-api.md)
 
 **Open-source tools used in this project**
 
