@@ -62,5 +62,31 @@ List<ContactDTO> contactDtoList = connection.Select<Contact, ContactDTO>((x, y) 
 ```
 {% endcode %}
 
+**Insert**
+
+Salesforce object inserts API supports multiple ways of inserting an object or list of objects. How inserts are done, and errors are managed is abstracted from the developer. The 3 main apis are
+
+```csharp
+// Insert a single Contact object
+var reply = Insert<Contact>(contact);
+	
+// Insert a list of Contact objects with a batch size of 200
+List<Reply> replyListOne = Insert<Contact>(contactList);
+
+// Insert a list of Contacts with a custom batch size; 
+// batch size can't be larger than 200
+List<Reply> replyListTwo = Insert<Contact>(contactList, batchSize);
+```
+
+In Salesforce, you can pass up to 200 objects in a REST call. By default, if you pass a list of 1000 Contact objects, we split it into 5 REST calls, and all REST calls are made concurrently.&#x20;
+
+Optionally you can specify a smaller batch size. For example, f you pass a list of 1000 Contact objects and a batch size of 10, we will make 100 REST calls concurrently
+
+In testing, we have found smaller batch size will lead to faster performance. The downside is you will be using your API limits.&#x20;
+
+
+
+**Select**
+
 
 
