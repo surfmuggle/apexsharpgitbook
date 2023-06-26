@@ -10,7 +10,7 @@ A collection of open-source tools developed in C# to help C# (or any other . NET
 
 Projects
 
-* [ApexSharp API](apexsharp/apexsharp-salesforce-api.md): An intelligent .NET (C#, F#, VB) wrapper for Salesforce Rest API
+* [ApexSharp API](apexsharp/apexsharp-salesforce-c-api.md): An intelligent .NET (C#, F#, VB) wrapper for Salesforce Rest API
 * [ApexSharp Functions](apexsharp/apexsharp-functions.md): C# (Microsoft . NET) Server Side SDK for Salesforce Functions
 * [Salesforce Functions API Specification](apexsharp/salesforce-functions-api.md): Specification to all anyone to develop **a** server-side SDK for Salesforce function in **any** programming language hosted in **any** cloud provider.
 * ApexSharp Apex Parser:&#x20;
