@@ -2,7 +2,7 @@
 description: A Inteligent C# Wrapper for Salesforce REST API
 ---
 
-# ApexSharp Salesforce API
+# ApexSharp Salesforce CSharp API
 
 **Feedback**
 
@@ -106,7 +106,7 @@ List<ContactDTO> contactDtoList = connection.Select<Contact, ContactDTO>((x, y) 
 
 **Insert**
 
-Salesforce object inserts API supports multiple ways of inserting an object or list of objects. How inserts are done, and errors are managed is abstracted from the developer. The 3 methods are
+Salesforce object inserts API supports multiple ways of inserting an object or list of objects. How inserts are done, and errors are managed is abstracted from the developer. The three methods are
 
 ```csharp
 // Insert a single Contact object
@@ -120,7 +120,7 @@ List<Reply> replyListOne = Insert<Contact>(contactList);
 List<Reply> replyListTwo = Insert<Contact>(contactList, batchSize);
 ```
 
-In Salesforce, you can pass up to 200 objects in a REST call. By default, if you pass a list of 1000 Contact objects, we split it into 5 REST calls of 200 records each. All REST calls are made concurrently.&#x20;
+In Salesforce, you can pass up to 200 objects in a single REST call. By default, if you pass a list of 1000 Contact objects, we split it into 5 REST calls of 200 records each. All REST calls are made concurrently.&#x20;
 
 Optionally you can specify a smaller batch size. For example, f you pass a list of 1000 Contact objects and a batch size of 10, we will make 100 REST calls concurrently
 
@@ -129,6 +129,22 @@ In testing, we have found smaller batch size will lead to faster performance. Th
 Here is an example of inserting a Contact object with Two Fields.
 
 <table><thead><tr><th width="309.3333333333333">Insert Type</th><th>Time in Millisecond</th><th># of API Calls</th></tr></thead><tbody><tr><td>One Record</td><td>1,801</td><td>1</td></tr><tr><td>1000 Records, Batch Size 200</td><td>6,604</td><td>5</td></tr><tr><td>1000 Records, Batch Size 10</td><td>155</td><td>100</td></tr></tbody></table>
+
+One of the biggest issues is error management. If you try inserting 1M records at 200 batch size this is 5000 REST calls, which can be made concurrently. Unfortunately, the whole insert process going fine is slim.&#x20;
+
+One of the issues with this approach is that we will get "ServerError" from Salesforce, and the records will not be inserted, updated, or deleted.&#x20;
+
+For every insert we keep track of and failed inserts are retried, When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
+
+When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
+
+_A local database such as_ [_LiteDb_](http://www.litedb.org/) _will be used. The way this will work is each object will be given a GUID, and if there is a failure, those objects will be saved to LiteDB. Please feel free to start a conversation on the GitHub discussion section_ [_here_](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)_._ &#x20;
+
+_The same logic is applied to Delete and Update_
+
+
+
+
 
 **SELECT**
 
@@ -244,26 +260,5 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 
 
 
-**Failure handling in INSERT, UPSERT, and DELETE**
 
-
-
-When you want to insert, upsert and delete a large number of objects, the REST call is split as you cant have more than 200 objects on a single REST call.&#x20;
-
-```csharp
-// Insert a list of Contact objects with a batch size 200. This is the default. 
-List<Reply> replyListOne = Insert<Contact>(contactList);
-
-// Insert a list of Contacts with a custom batch size; 
-// batch size can't be larger than 200
-List<Reply> replyListTwo = Insert<Contact>(contactList, batchSize);
-```
-
-For example, if you pass 20,000 Records, this will be split into 100 REST calls (as the default batch size is 200), and all 100 REST calls will be made simultaneously (Asynchronously).&#x20;
-
-One of the issues with this approach is that we will get "ServerError" from Salesforce, and the records will not be inserted, updated, or deleted.&#x20;
-
-When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
-
-_One option I am looking at is using a local database such as_ [_LiteDb_](http://www.litedb.org/)_. The way this will work is each object will be given a GUID, and if there is a failure, those objects will be saved to LiteDB. Please feel free to start a conversation on the GitHub discussion section_ [_here_](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)_._ &#x20;
 
