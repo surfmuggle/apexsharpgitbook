@@ -76,6 +76,45 @@ If it's more than 2200 records, things get a bit complicated.&#x20;
 2. Then query 2000 records at a time
 3. The user will get ALL the records.&#x20;
 
+**Safety**
+
+Salesforce allocates a limit on the API use per 24-hour time frame. If you run out of them, it's bad news, as many things that depend on the REST API will stop working. Due to this, you want to check before making a Rest call.&#x20;
+
+Due to this, we support an estimate on large CRUD operations. For example the following code shows how you can get an estimate on the API usage, how many API calls are left and then add a 20% margin and make the call
+
+<pre class="language-csharp"><code class="lang-csharp">// Get the API calls needed for this query
+var apiUsage = connection.Select&#x3C;Contact>().ApiUsage();
+// Get the API calls left
+<strong>var apiLeft = connection.ApiLeft();
+</strong>// Add a 20% safety net
+apiLeft = apiLeft * 1.2;
+// Only run the query if it's safe
+if( apiLeft > apiUsage) {
+	// SELECT FIELDS(ALL) FROM Contact
+	List&#x3C;Contact> contactList = connection.Select&#x3C;Contact>();
+}
+</code></pre>
+
+We can't estimate if the call has a where clause.&#x20;
+
+```csharp
+// Get the API calls left
+var apiLeft = connection.ApiLeft();
+// SELECT Id FROM Contact WHERE Name = 'Jay'
+var contactList = connection.Select<Contact>((x => x.Id))
+.Where(x => x.Name == "Jay").StopAt(apiLeft * 0.9);
+```
+
+By adding StopAt() you are telling when to stop. In the above example, once the API left number reaches 90%, we will not make any more API calls and will return what has been received.
+
+
+
+`Todo: How will the developer know this is a partial return?`
+
+
+
+
+
 **Lazy Loading**
 
 {% code overflow="wrap" fullWidth="false" %}
