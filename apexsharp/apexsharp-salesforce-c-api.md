@@ -10,17 +10,26 @@ To provide feedback or ask questions, kindly utilize the GitHub discussion funct
 
 [Go to the GitHub discussion](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)
 
+**Project**
+
+Build an advanced but easy-to-use C# SDK that can efficiently interact with Salesforce APIs. My current plan is to explore its capabilities and determine how it can best support the following APIs.
+
+* SObjects
+* Bulk V2
+* Tooling
+* Data Cloud&#x20;
+* Helper&#x20;
+
 **Goals**
 
-Take advantage of [.NET 8](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8)
-
-Use the latest features developed upto [C# 12](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12)
-
-Use features unique to C#. For example
-
-* LINQ, instead of dealing with SOQL
-* Take advantage of async / await
+* Take advantage of [.NET 8](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8) and the latest features developed up to [C# 12](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12): Currently, .NET 8 is in beta, and the release is in November, according to Microsoft.&#x20;
+* LINQ, instead of dealing with SOQL.
+* Take advantage of async / await in C#
 * Hide the complexity: For example `Select<Contact>()` will return all the contact objects. the API chooses the best path based on the number of records; this can be 1 record or 100 million.
+* Since joining Salesforce a few years ago, I have gained extensive knowledge about how the Salesforce API works. Definitely making use of this expertise.
+* Speed-wise, it's almost identical to making raw REST/JSON calls.
+
+
 
 Use some of the most used Nuget Opensource libraries
 
@@ -78,7 +87,7 @@ If it's more than 2200 records, things get a bit complicated.&#x20;
 1. Since we will know all the field names, we will create a SOQL with all the field names
 2. Then query 2000 records at a time and append to a List
 3. The user will get ALL the records.&#x20;
-4.
+4. If we have more than 2200 records, we will make multiple queries.&#x20;
 
 **Safety**
 
@@ -291,9 +300,9 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 1. If you have a very large data set, you can use [Bulk API 2.0](https://developer.salesforce.com/docs/atlas.en-us.api\_asynch.meta/api\_asynch/bulk\_api\_2\_0.htm)
 2. C# objects to CSV conversion are done automatically&#x20;
 3. If the CSV File is more than 100MB, the files will be automatically chunked
-4. Parent / Child relationships are automatically mapped from C# object
+4. Parent / Child relationships are automatically mapped from the C# object
 5. GZip Support for responses in the background&#x20;
-6. You can pass a Delegate callback to get incremental updates on your bulk api request
+6. You can pass a Delegate callback to get incremental updates on your bulk API request
 
 
 
@@ -301,7 +310,7 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 
 **Convenience Methods**&#x20;
 
-
+**Exception Handling**
 
 **Feedback**
 
