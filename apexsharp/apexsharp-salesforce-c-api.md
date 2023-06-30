@@ -2,11 +2,13 @@
 description: A Inteligent C# Wrapper for Salesforce REST API
 ---
 
-# ApexSharp Salesforce API
+# ApexSharp Salesforce C# API
 
 **Feedback**
 
-Please use the GitHub discussion function to leave feedback and follow [https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)
+To provide feedback or ask questions, kindly utilize the GitHub discussion function. Follow this link to access the GitHub discussion and leave your comments. Your feedback is highly appreciated.&#x20;
+
+[Go to the GitHub discussion](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)
 
 **Goals**
 
@@ -16,8 +18,9 @@ Use the latest features developed upto [C# 12](https://learn.microsoft.com/en-us
 
 Use features unique to C#. For example
 
-* LINQ instead of dealing with SOQL
+* LINQ, instead of dealing with SOQL
 * Take advantage of async / await
+* Hide the complexity: For example `Select<Contact>()` will return all the contact objects. the API chooses the best path based on the number of records; this can be 1 record or 100 million.
 
 Use some of the most used Nuget Opensource libraries
 
@@ -31,7 +34,7 @@ Use some of the most used Nuget Opensource libraries
 * [_Polly_](https://github.com/App-vNext/Polly)
 * [_Benchmark .Net_ ](https://github.com/dotnet/BenchmarkDotNet)
 
-**Keep it simple**
+**Read Records - Select**
 
 ```csharp
 // Get all the Contact objects and all the fields on each Contact object
@@ -73,8 +76,48 @@ SELECT FIELDS(ALL) FROM Contact LIMIT 200 OFFSET 2000
 If it's more than 2200 records, things get a bit complicated.&#x20;
 
 1. Since we will know all the field names, we will create a SOQL with all the field names
-2. Then query 2000 records at a time
+2. Then query 2000 records at a time and append to a List
 3. The user will get ALL the records.&#x20;
+4.
+
+**Safety**
+
+Salesforce allocates a limit on the API use per 24-hour time frame. If you run out of them, it's bad news, as many things that depend on the REST API will stop working. Due to this, you want to check before making a Rest call.&#x20;
+
+Due to this, we support an estimate on large CRUD operations. For example, the following code shows how you can get an estimate on the API usage, how many API calls are left and then add a 20% margin and make the call
+
+<pre class="language-csharp"><code class="lang-csharp">// Get the API calls needed for this query
+var apiUsage = connection.Select&#x3C;Contact>().ApiUsage();
+// Get the API calls left
+<strong>var apiLeft = connection.ApiLeft();
+</strong>// Add a 20% safety net
+apiLeft = apiLeft * 1.2;
+// Only run the query if it's safe
+if( apiLeft > apiUsage) {
+	// SELECT FIELDS(ALL) FROM Contact
+	List&#x3C;Contact> contactList = connection.Select&#x3C;Contact>();
+}
+</code></pre>
+
+We can't estimate if the call has a where clause.&#x20;
+
+```csharp
+// Get the API calls left
+var apiLeft = connection.ApiLeft();
+// SELECT Id FROM Contact WHERE Name = 'Jay'
+var contactList = connection.Select<Contact>((x => x.Id))
+.Where(x => x.Name == "Jay").StopAt(apiLeft * 0.9);
+```
+
+By adding StopAt(), you are telling when to stop. In the above example, once the API left number reaches 90%, we will not make any more API calls and will return what has been received.
+
+
+
+`Todo: How will the developer know this is a partial return?`
+
+
+
+
 
 **Lazy Loading**
 
@@ -106,7 +149,7 @@ List<ContactDTO> contactDtoList = connection.Select<Contact, ContactDTO>((x, y) 
 
 **Insert**
 
-Salesforce object inserts API supports multiple ways of inserting an object or list of objects. How inserts are done, and errors are managed is abstracted from the developer. The 3 methods are
+Salesforce object inserts API supports multiple ways of inserting an object or list of objects. How inserts are done, and errors are managed is abstracted from the developer. The three methods are
 
 ```csharp
 // Insert a single Contact object
@@ -120,7 +163,7 @@ List<Reply> replyListOne = Insert<Contact>(contactList);
 List<Reply> replyListTwo = Insert<Contact>(contactList, batchSize);
 ```
 
-In Salesforce, you can pass up to 200 objects in a REST call. By default, if you pass a list of 1000 Contact objects, we split it into 5 REST calls of 200 records each. All REST calls are made concurrently.&#x20;
+In Salesforce, you can pass up to 200 objects in a single REST call. By default, if you pass a list of 1000 Contact objects, we split it into 5 REST calls of 200 records each. All REST calls are made concurrently.&#x20;
 
 Optionally you can specify a smaller batch size. For example, f you pass a list of 1000 Contact objects and a batch size of 10, we will make 100 REST calls concurrently
 
@@ -129,6 +172,22 @@ In testing, we have found smaller batch size will lead to faster performance. Th
 Here is an example of inserting a Contact object with Two Fields.
 
 <table><thead><tr><th width="309.3333333333333">Insert Type</th><th>Time in Millisecond</th><th># of API Calls</th></tr></thead><tbody><tr><td>One Record</td><td>1,801</td><td>1</td></tr><tr><td>1000 Records, Batch Size 200</td><td>6,604</td><td>5</td></tr><tr><td>1000 Records, Batch Size 10</td><td>155</td><td>100</td></tr></tbody></table>
+
+One of the biggest issues is error management. If you try inserting 1M records at 200 batch size this is 5000 REST calls, which can be made concurrently. Unfortunately, the whole insert process going fine is slim.&#x20;
+
+One of the issues with this approach is that we will get "ServerError" from Salesforce, and the records will not be inserted, updated, or deleted.&#x20;
+
+For every insert we keep track of and failed inserts are retried, When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
+
+When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
+
+_A local database such as_ [_LiteDb_](http://www.litedb.org/) _will be used. The way this will work is each object will be given a GUID, and if there is a failure, those objects will be saved to LiteDB. Please feel free to start a conversation on the GitHub discussion section_ [_here_](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)_._ &#x20;
+
+_The same logic is applied to Delete and Update_
+
+
+
+
 
 **SELECT**
 
@@ -174,27 +233,27 @@ connection.Select<Contact>("SELECT Id FROM Contact").Run();
 // SELECT Id FROM Contact
 connection.Select("SELECT Id FROM Contact");
 // SELECT FIELDS(ALL) FROM Contact WHERE Id='003Ho00001ftlLyIAI' LIMIT 1
-connection.SelectById<Contact>("003Ho00001ftlLyIAI").Limit(1).Run();        
+connection.SelectById<Contact>("003Ho00001ftlLyIAI").Run();        
 ```
 {% endcode %}
 
 * Line 2: The ability to submit raw SOQL and get the results bound to a class
 * Line 4: Same as above, but you get the actual JSON
-* Line 6: Get a single record
+* Line 6: Get a single record by its ID
 
 **Upsert**
 
-Send a list of objects; if the Id is null or empty, it will be an insert. If we have an Id filed it will be an update
+Send a list of objects; if the Id is null or empty, it will be an insert. If we have an Id on the record it will be an update
 
 ```csharp
-// Upsert single Contact object
+// Upsert single record
 var reply = connection.Upsert<Contact>(contact);
 	
-// Upsert a list of Contact objects with a batch size of 200
+// Upsert a list of objects. This will set the default batch size to 200 records
 List<Reply> replyListOne = connection.Upsert<Contact>(contactList);
 
 // Upsert a list of Contacts with a custom batch size; 
-// batch size can't be larger than 200
+// Batch size can't be larger than 200
 List<Reply> replyListTwo = connection.Upsert<Contact>(contactList, batchSize);
 ```
 
@@ -212,7 +271,7 @@ var reply = connection.Delete<Contact>(String Id);
 
 ```
 
-**Bulk Insert**
+**Bulk API**
 
 ```csharp
 List<Contact> contactList = new List<Contact>();
@@ -229,14 +288,14 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 }
 ```
 
-1. Bulk Insert uses [Bulk API 2.0](https://developer.salesforce.com/docs/atlas.en-us.api\_asynch.meta/api\_asynch/bulk\_api\_2\_0.htm)
+1. If you have a very large data set, you can use [Bulk API 2.0](https://developer.salesforce.com/docs/atlas.en-us.api\_asynch.meta/api\_asynch/bulk\_api\_2\_0.htm)
 2. C# objects to CSV conversion are done automatically&#x20;
 3. If the CSV File is more than 100MB, the files will be automatically chunked
 4. Parent / Child relationships are automatically mapped from C# object
 5. GZip Support for responses in the background&#x20;
-6. You can pass a Delegate callback to get incremental updates on the bulk upload
+6. You can pass a Delegate callback to get incremental updates on your bulk api request
 
-**Bulk Query**
+
 
 
 
@@ -244,26 +303,9 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 
 
 
-**Failure handling in INSERT, UPSERT, and DELETE**
+**Feedback**
 
+To provide feedback or ask questions, kindly utilize the GitHub discussion function. Follow this link to access the GitHub discussion and leave your comments. Your feedback is highly appreciated.&#x20;
 
-
-When you want to insert, upsert and delete a large number of objects, the REST call is split as you cant have more than 200 objects on a single REST call.&#x20;
-
-```csharp
-// Insert a list of Contact objects with a batch size 200. This is the default. 
-List<Reply> replyListOne = Insert<Contact>(contactList);
-
-// Insert a list of Contacts with a custom batch size; 
-// batch size can't be larger than 200
-List<Reply> replyListTwo = Insert<Contact>(contactList, batchSize);
-```
-
-For example, if you pass 20,000 Records, this will be split into 100 REST calls (as the default batch size is 200), and all 100 REST calls will be made simultaneously (Asynchronously).&#x20;
-
-One of the issues with this approach is that we will get "ServerError" from Salesforce, and the records will not be inserted, updated, or deleted.&#x20;
-
-When this happens we will use [Polly ](https://github.com/App-vNext/Polly)to retry, and if that fails, log all the failed objects.&#x20;
-
-_One option I am looking at is using a local database such as_ [_LiteDb_](http://www.litedb.org/)_. The way this will work is each object will be given a GUID, and if there is a failure, those objects will be saved to LiteDB. Please feel free to start a conversation on the GitHub discussion section_ [_here_](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)_._ &#x20;
+[Go to the GitHub discussion](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)
 
