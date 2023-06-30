@@ -16,7 +16,7 @@ Use the latest features developed upto [C# 12](https://learn.microsoft.com/en-us
 
 Use features unique to C#. For example
 
-* LINQ instead of dealing with SOQL
+* LINQ, instead of dealing with SOQL
 * Take advantage of async / await
 
 Use some of the most used Nuget Opensource libraries
@@ -43,7 +43,7 @@ The REST calls and pagination is hidden from the developer. If there are 50K rec
 For example, the above code most of us will assume it will generate the following SOQL
 
 ```sql
-SELECT FIELDS(ALL) FROM Contact 
+SELECT FIELDS(ALL) FROM Contact LIMIT 200
 ```
 
 But that is not valid as there is a limit of 200 records when you get all the fields. To overcome this, first, we make the following call to find the record count
