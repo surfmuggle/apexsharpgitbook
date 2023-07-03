@@ -102,29 +102,24 @@ var apiUsage = connection.Select&#x3C;Contact>().ApiUsage();
 </strong>// Add a 20% safety net
 apiLeft = apiLeft * 1.2;
 // Only run the query if it's safe
-if( apiLeft > apiUsage) {
+if( apiLeft > API usage) {
 	// SELECT FIELDS(ALL) FROM Contact
 	List&#x3C;Contact> contactList = connection.Select&#x3C;Contact>();
 }
+
+
 </code></pre>
 
-We can't estimate if the call has a where clause.&#x20;
+**Partial Return**
 
 ```csharp
-// Get the API calls left
-var apiLeft = connection.ApiLeft();
-// SELECT Id FROM Contact WHERE Name = 'Jay'
 var contactList = connection.Select<Contact>((x => x.Id))
-.Where(x => x.Name == "Jay").StopAt(apiLeft * 0.9);
+.Where(x => x.Name == "Jay").StopAt(0.9);
 ```
 
 By adding StopAt(), you are telling when to stop. In the above example, once the API left number reaches 90%, we will not make any more API calls and will return what has been received.
 
-
-
 `Todo: How will the developer know this is a partial return?`
-
-
 
 
 
@@ -155,6 +150,18 @@ List<ContactDTO> contactDtoList = connection.Select<Contact, ContactDTO>((x, y) 
 });
 ```
 {% endcode %}
+
+
+
+**Child Depth Level**
+
+```csharp
+Contact contactById = connection.Select<Contact>(contact.Id).DepthLevel(5);
+```
+
+You can specify how deep your query should go. The SDK is smart enough not to go into a recursive more.
+
+
 
 **Insert**
 
@@ -306,15 +313,17 @@ if(bulkInsertStatus.GetJobInfo().State == "JobComplete") {
 
 
 
-
-
 **Convenience Methods**&#x20;
 
 **Exception Handling**
+
+
 
 **Feedback**
 
 To provide feedback or ask questions, kindly utilize the GitHub discussion function. Follow this link to access the GitHub discussion and leave your comments. Your feedback is highly appreciated.&#x20;
 
 [Go to the GitHub discussion](https://github.com/apexsharp/SalesforceNetApi/discussions/categories/ideas)
+
+
 
