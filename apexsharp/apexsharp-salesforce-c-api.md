@@ -58,7 +58,7 @@ For example, the above code most of us will assume it will generate the followin
 SELECT FIELDS(ALL) FROM Contact 
 ```
 
-But that is not valid as there is a limit of 200 records when you get all the fields. To overcome this, first, we make the following call to find the record count
+But that is not valid as there is a limit of 200 records when you get all the fields. To overcome this, first, we make the following call to find the record count.
 
 ```sql
 SELECT Count(Id) FROM Contact 
@@ -88,6 +88,18 @@ If it's more than 2200 records, things get a bit complicated.&#x20;
 2. Then query 2000 records at a time and append to a List
 3. The user will get ALL the records.&#x20;
 4. If we have more than 2200 records, we will make multiple queries.&#x20;
+
+
+
+**Keep in Simple**&#x20;
+
+
+
+```csharp
+List<InsertReply> reply = Insert<Contact>(List<Contact> contactList();
+```
+
+
 
 **Safety**
 
